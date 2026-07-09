@@ -75,8 +75,3 @@ The application integrates location-based services with Firebase to deliver a se
 
 # 📸 Screenshots
 
-
-
-Flutter Developer | Firebase | Java | Python
-
-GitHub: https://github.com/pavithraaravimaran
