@@ -33,6 +33,16 @@ dependencies:
   flutter_map: ^5.0.0
   latlong2: ^0.9.1
   url_launcher: ^6.1.10
+  firebase_core: 3.6.0  # Latest stable version as of October 2024
+
+    # Firebase Realtime Database
+  firebase_database: 11.1.4
+      #firebase_core: ^3.6.0
+ # firebase_database: ^10.1.1
+#  firebase_core: ^2.32.0 # Version as of October 2024
+
+    # Firebase Realtime Database
+#  firebase_database: ^11.1.4
 
 
 
@@ -43,6 +53,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

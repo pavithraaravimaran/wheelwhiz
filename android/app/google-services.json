@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "627102778647",
+    "project_id": "wheelwiz-38bc0",
+    "storage_bucket": "wheelwiz-38bc0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627102778647:android:a174485354903702a8e352",
+        "android_client_info": {
+          "package_name": "com.example.innowah"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqR8rQpR9HgpX5u1k37uCritVBj9upB5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

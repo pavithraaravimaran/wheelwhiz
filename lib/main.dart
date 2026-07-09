@@ -1,11 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'LoginPage.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -31,7 +34,7 @@ class LogoPage extends StatelessWidget {
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     });
 
@@ -48,291 +51,6 @@ class LogoPage extends StatelessWidget {
   }
 }
 
-// Login Page
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent, // Make the AppBar transparent
-        elevation: 0, // Remove shadow
-      ),
-      extendBodyBehindAppBar: true, // Make body go behind the AppBar
-      body: Stack(
-        children: [
-          // Black Background
-          Positioned.fill(
-            child: Container(
-              color: Colors.black, // Set background color to black
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Email Field
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      filled: true, // Add fill color to avoid white background
-                      fillColor: Colors.black.withOpacity(0.5), // Slight opacity
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Outline border color
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Custom blue color for enabled border
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Custom blue color for focused border
-                      ),
-                      prefixIcon: Icon(Icons.email, color: Color(0xFF304c82)), // Custom blue icon
-                      labelStyle: TextStyle(color: Colors.white),
-                    ),
-                    style: TextStyle(color: Colors.white), // Text color white
-                    keyboardType: TextInputType.emailAddress,
-                    cursorColor: Color(0xFF304c82), // Set cursor color to #304c82
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}').hasMatch(value)) {
-                        return 'Enter a valid email';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  // Password Field
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      filled: true,
-                      fillColor: Colors.black.withOpacity(0.5),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Outline border color
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Custom blue color for enabled border
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Custom blue color for focused border
-                      ),
-                      prefixIcon: Icon(Icons.lock, color: Color(0xFF304c82)), // Custom blue icon
-                      labelStyle: TextStyle(color: Colors.white),
-                    ),
-                    style: TextStyle(color: Colors.white),
-                    obscureText: true,
-                    cursorColor: Color(0xFF304c82), // Set cursor color to #304c82
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters long';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 24),
-                  // Login Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // Implement login logic
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF304c82), // Set background color to #304c82
-                      ),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white), // Set text color to white
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 16),
-                  // Navigate to SignUp Page
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
-                    },
-                    child: Text(
-                      'Don\'t have an account? Sign Up',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-class SignUpPage extends StatefulWidget {
-  @override
-  _SignUpPageState createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // No title needed
-        centerTitle: true,
-        backgroundColor: Colors.transparent, // Make the AppBar transparent
-        elevation: 0, // Remove shadow
-      ),
-      extendBodyBehindAppBar: true, // Make body go behind the AppBar
-      body: Stack(
-        children: [
-          // Background Color
-          Positioned.fill(
-            child: Container(
-              color: Colors.black, // Set the background color to black
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Email Field
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      filled: true,
-                      fillColor: Colors.black.withOpacity(0.5), // Slight opacity
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Border color
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Enabled border color
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Focused border color
-                      ),
-                      prefixIcon: Icon(Icons.email, color: Colors.white),
-                      labelStyle: TextStyle(color: Colors.white),
-                    ),
-                    style: TextStyle(color: Colors.white),
-                    keyboardType: TextInputType.emailAddress,
-                    cursorColor: Color(0xFF304c82), // Set cursor color
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}').hasMatch(value)) {
-                        return 'Enter a valid email';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  // Password Field
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      filled: true,
-                      fillColor: Colors.black.withOpacity(0.5),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Border color
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Enabled border color
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(color: Color(0xFF304c82)), // Focused border color
-                      ),
-                      prefixIcon: Icon(Icons.lock, color: Colors.white),
-                      labelStyle: TextStyle(color: Colors.white),
-                    ),
-                    style: TextStyle(color: Colors.white),
-                    obscureText: true,
-                    cursorColor: Color(0xFF304c82), // Set cursor color
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters long';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 24),
-                  // Sign Up Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // Implement sign up logic
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF304c82), // Set button color
-                      ),
-                      child: Text(
-                        'Sign Up',
-                        style: TextStyle(color: Colors.white), // Set text color to white
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 //homepage
 class HomePage extends StatefulWidget {
@@ -366,9 +84,9 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
-                color: const Color(0xFF304c82), // Set background color to #304c82
+                color: Color(0xFF304c82), // Set background color to #304c82
               ),
               child: Icon(
                 Icons.account_circle,
@@ -390,10 +108,19 @@ class _HomePageState extends State<HomePage> {
               leading: const Icon(Icons.logout, color: Colors.white),
               title: const Text('Logout', style: TextStyle(color: Colors.white)),
               onTap: () {
-                // Implement logout functionality
-                Navigator.pop(context);
+                // Clear any user session data here if needed
+                // For example:
+                // SharedPreferences prefs = await SharedPreferences.getInstance();
+                // await prefs.clear(); // Clear stored user data
+
+                // Navigate back to the login page
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()), // Replace with your login page
+                );
               },
             ),
+
           ],
         ),
       ),
@@ -482,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile', style: TextStyle(color: Colors.white)),
-        backgroundColor: Color(0xFF304c82), // Updated background color
+        backgroundColor: const Color(0xFF304c82), // Updated background color
         iconTheme: const IconThemeData(color: Colors.white), // Set AppBar icon color to white
       ),
       body: Container(
@@ -493,7 +220,7 @@ class _ProfilePageState extends State<ProfilePage> {
             // Name Field
             TextField(
               controller: _nameController,
-              cursorColor: Color(0xFF304c82), // Set cursor color
+              cursorColor: const Color(0xFF304c82), // Set cursor color
               decoration: const InputDecoration(
                 labelText: 'Name',
                 labelStyle: TextStyle(color: Colors.white), // Set label text color to white
@@ -514,7 +241,7 @@ class _ProfilePageState extends State<ProfilePage> {
             // Email Field
             TextField(
               controller: _emailController,
-              cursorColor: Color(0xFF304c82), // Set cursor color
+              cursorColor: const Color(0xFF304c82), // Set cursor color
               decoration: const InputDecoration(
                 labelText: 'Email',
                 labelStyle: TextStyle(color: Colors.white),
@@ -556,7 +283,7 @@ class _ProfilePageState extends State<ProfilePage> {
             TextField(
               controller: _contactController,
               keyboardType: TextInputType.phone,
-              cursorColor: Color(0xFF304c82), // Set cursor color
+              cursorColor: const Color(0xFF304c82), // Set cursor color
               decoration: const InputDecoration(
                 labelText: 'Contact Number',
                 labelStyle: TextStyle(color: Colors.white),
@@ -577,7 +304,7 @@ class _ProfilePageState extends State<ProfilePage> {
             // Address Field
             TextField(
               controller: _addressController,
-              cursorColor: Color(0xFF304c82), // Set cursor color
+              cursorColor: const Color(0xFF304c82), // Set cursor color
               decoration: const InputDecoration(
                 labelText: 'Address',
                 labelStyle: TextStyle(color: Colors.white),
@@ -598,7 +325,7 @@ class _ProfilePageState extends State<ProfilePage> {
             // District Field
             TextField(
               controller: _stateController,
-              cursorColor: Color(0xFF304c82), // Set cursor color
+              cursorColor: const Color(0xFF304c82), // Set cursor color
               decoration: const InputDecoration(
                 labelText: 'District',
                 labelStyle: TextStyle(color: Colors.white),
@@ -619,7 +346,7 @@ class _ProfilePageState extends State<ProfilePage> {
             // State Field
             TextField(
               controller: _stateController,
-              cursorColor: Color(0xFF304c82), // Set cursor color
+              cursorColor: const Color(0xFF304c82), // Set cursor color
               decoration: const InputDecoration(
                 labelText: 'State',
                 labelStyle: TextStyle(color: Colors.white),
@@ -643,7 +370,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Add save logic here
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF304c82), // Set button color to blue
+                backgroundColor: const Color(0xFF304c82), // Set button color to blue
               ),
               child: const Text('Save', style: TextStyle(color: Colors.white)),
             ),
@@ -668,7 +395,7 @@ class WheelchairPage extends StatelessWidget {
             children: <Widget>[
               AppBar(
                 title: const Text('Wheelchair', style: TextStyle(color: Colors.white)),
-                backgroundColor: Color(0xFF304c82),
+                backgroundColor: const Color(0xFF304c82),
                 elevation: 0,
                 iconTheme: const IconThemeData(color: Colors.white),
               ),
@@ -720,7 +447,7 @@ class WheelchairShopPage extends StatelessWidget {
             children: <Widget>[
               AppBar(
                 title: const Text('Wheelchair Shops', style: TextStyle(color: Colors.white)),
-                backgroundColor: Color(0xFF304c82),
+                backgroundColor: const Color(0xFF304c82),
                 elevation: 0,
                 leading: const Icon(Icons.shop, color: Colors.white),
               ),
@@ -797,7 +524,7 @@ class WheelchairMechanicShopPage extends StatelessWidget {
             children: <Widget>[
               AppBar(
                 title: const Text('Wheelchair Mechanic Shops', style: TextStyle(color: Colors.white)),
-                backgroundColor: Color(0xFF304c82),
+                backgroundColor: const Color(0xFF304c82),
                 elevation: 0,
                 leading: const Icon(Icons.build, color: Colors.white),
               ),
@@ -1229,7 +956,7 @@ class MapPage extends StatelessWidget {
         children: [
           TileLayer(
             urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c'],
+            subdomains: const ['a', 'b', 'c'],
           ),
           MarkerLayer(
             markers: [
